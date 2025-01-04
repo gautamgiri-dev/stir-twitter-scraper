@@ -11,7 +11,9 @@
 
 
 > Note: The provided twitter credentials are of a dummy disposable account so you can use it as is.
+> 
 > Kindly update the `PROXY_MESH_USERNAME` and `PROXY_MESH_PORT` variables with your own
+> 
 > `TWITTER_USERNAME` environment variable is used to bypass the Phone/Username verification challenge presented by Twitter
 
 ```txt
@@ -33,7 +35,7 @@ MONGO_URI=mongodb://localhost:27017/twitterTrending
 
 ## Steps to use the program?
 
-1. Clone the repo using `git clone https://gautamgiri-dev/twitter-trending-scraper-stir`
+1. Clone the repo using `git clone https://github.com/gautamgiri-dev/stir-twitter-scraper`
 2. Navigate to local cloned directory and create a virtual env (if you like) then install required libraries `pip install -r requirements.txt`
 3. Run `python app.py` to run the application
 4. You can use the application at `http://localhost:5000`
