@@ -1,0 +1,28 @@
+body {
+    width: 100svh;
+    height: 100svh;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-scrape {
+    padding: 0.5rem 1rem;
+    background-color: hsl(212, 44%, 32%);
+    color: white;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+button:disabled {
+    pointer-events: none;
+}
+
+.btn-scrape:hover {
+    background-color: hsl(212, 44%, 42%);
+}
+
+span {
+    font-size: small;
+    color: gray
+}

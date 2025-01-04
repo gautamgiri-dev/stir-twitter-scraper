@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Twitter Top Trending Scraper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <h1>
+      Welcome to Twitter Tending Topics Scrapper
+    </h1>
+
+    <p>Device IP: <strong>{{ device_ip }}</strong><span> (To use proxies you should add them to whitelist in ProxyMesh)</span></p>
+
+    <div style="margin: 8px 0px;">
+        <p>Configuration <span>(For debugging purpose)</span>:</p>
+        
+        <input type="checkbox" name="headless" id="headless" disabled />
+        <label for="headless">Headless</label>
+         
+        <input type="checkbox" name="proxy" id="proxy" checked />
+        <label for="proxy">Use Proxy</label>
+
+        <input type="checkbox" name="profile" id="profile" />
+        <label for="profile">Use Chrome Profile <span>(Existing login session will be used if available)</span></label>
+      
+    </div>
+
+    <button class="btn-scrape" id="btn-scrape">
+      &#9658; Click to scrape topics
+    </button>
+
+    <div id="result" hidden>
+      <p>The IP address used for this query was: <strong id="used-ip">{{ device_ip }}</strong></p>
+      <p>These are the most happening topics as on <strong id="start-time">03-01-2025</strong></p>
+      <ul id="topics">
+
+      </ul>
+
+      <p>Here's a JSON extract of this record from MongoDB:</p>
+      <kbd id="json">
+        {"_id": "id"}
+      </kbd>
+    </div>
+
+    <div id="errorLogs" hidden>
+      <br />
+      <label for="logs">Logs:</label>
+      <textarea id="logs" readonly>
+      </textarea>
+    </div>
+
+    <script>
+      const resultContainer = document.querySelector('#result')
+      const ipAddressContainer = document.querySelector('#used-ip')
+      const startTimeContainer = document.querySelector('#start-time')
+      const topicsContainer = document.querySelector('#topics')
+      const jsonContainer = document.querySelector('#json')
+      const logsContainer = document.querySelector('#logs')
+      const btnScrape = document.querySelector('#btn-scrape')
+      const useHeadlessCheckbox = document.querySelector('#headless')
+      const useProxyCheckbox = document.querySelector('#proxy')
+      const errorContainer = document.querySelector('#errorLogs')
+      const useProfileCheckbox = document.querySelector('#profile')
+
+      async function scrapeTrendingTopics(proxy=false, headless=false, profile=false) {
+        logsContainer.setAttribute('hidden', true)
+        errorContainer.setAttribute('hidden', true)
+        btnScrape.setAttribute('disabled', true)
+        btnScrape.innerText = "Running script..."
+        const response = await fetch(`/api/scrape?proxy=${proxy}&headless=${headless}&profile=${profile}`);
+        const data = await response.json()
+        if(data.success) {
+          ipAddressContainer.innerText = data.ip
+          startTimeContainer.innerText = data.start_time
+          topicsContainer.innerHTML = ''
+          data.topics.forEach(topic => {
+            const li = document.createElement('li')
+            li.innerText = topic
+            topicsContainer.appendChild(li)
+          })
+          jsonContainer.innerText = JSON.stringify(data.entry, null, 4)
+          resultContainer.removeAttribute('hidden')
+        }else{
+          logsContainer.innerText = data.logs.join('\r\n')
+          errorContainer.removeAttribute('hidden')
+        }
+        btnScrape.removeAttribute('disabled')
+        btnScrape.innerHTML = "&#9658; Click to scrape topics"
+      }
+
+      btnScrape.addEventListener('click', async () => await scrapeTrendingTopics(useProxyCheckbox.checked, false, useProfileCheckbox.checked))
+    </script>
+  </body>
+</html>
