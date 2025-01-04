@@ -33,12 +33,13 @@ MONGO_URI=mongodb://localhost:27017/twitterTrending
 * Python 3.x
 * MongoDB
 
-## Steps to use the program?
+## Instructions to use the program
 
 1. Clone the repo using `git clone https://github.com/gautamgiri-dev/stir-twitter-scraper`
 2. Navigate to local cloned directory and create a virtual env (if you like) then install required libraries `pip install -r requirements.txt`
 3. Run `python app.py` to run the application
 4. You can use the application at `http://localhost:5000`
 5. To use local Chrome Profile you must update the `CHROME_*` environment variables. I have kept the my system's values for example
-6. To use proxy feature you must whitelist your current ip address from **ProxyMesh** dashboard
-7. Ensure that `MONGO_URI` correctly refers to your instance of MongoDB server you want to use and update it's value accordingly
+6. While using Chrome Profile you should consider running the application in browser other than Chrome as it may interfere with the selenium webdriver and the specified Chrome Profile should not be opened in any chrome instance. You can close all the instances of Chrome in order to ensure it runs succesfully
+7. To use proxy feature you must whitelist your current ip address from **ProxyMesh** dashboard
+8. Ensure that `MONGO_URI` correctly refers to your instance of MongoDB server you want to use and update it's value accordingly
